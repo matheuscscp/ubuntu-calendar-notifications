@@ -10,7 +10,7 @@ Ubuntu insistent desktop notifications for Google Calendar events.
 4. Install go 1.16
 5. Clone this repo or download the [latest release](https://github.com/matheuscscp/ubuntu-calendar-notifications/releases/latest) source code
 6. Run `go build` in the root folder to generate the `ubuntu-calendar-notifications` binary
-7. Create the following script replacing the placeholders:
+7. Create the following script somewhere in your computer (replace the placeholders!):
 
 ```bash
 #!/bin/bash
@@ -21,6 +21,7 @@ GMAILS=<list of gmails separated by comma>
 kill -15 $(ps aux | grep ubuntu-calendar-notifications | awk '{print $2}') 2> /dev/null
 CREDENTIALS_FILE=$CREDENTIALS_FILE GMAILS=$GMAILS <path to ubuntu-calendar-notifications binary> >> <path to log file> 2>&1 &
 ```
-8. Add a program to Ubuntu's Startup Applications Preferences that runs the above script
-9. To stop notifications for on-going events, create an easy shell command, like `calendar-ack`, that runs the above script
-10. (Optional) Go to the Calendar Settings of each gmail and grant access to the service account email to improve the notifications (you can find the service account email in Google Cloud Console)
+8. Grant permission for execution to the script file (`$ chmod +x <path to script file>`)
+9. To ensure the app is always running, add a program to Ubuntu's Startup Applications Preferences pointing to the script file
+10. To acknowledge notifications for on-going events, move the script file to a folder like `/usr/local/bin` and use it like a shell command (e.g. `calendar-ack`)
+11. (Optional) Go to the Calendar Settings of each gmail and grant access to the service account email to improve the notifications (you can find the service account email in Google Cloud Console)
