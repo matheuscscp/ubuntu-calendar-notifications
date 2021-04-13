@@ -25,4 +25,4 @@ CREDENTIALS_FILE=$CREDENTIALS_FILE GMAILS=$GMAILS <path to ubuntu-calendar-notif
 9. To ensure the app is always running, add a program to Ubuntu's Startup Applications Preferences pointing to the script file
 10. To acknowledge notifications for on-going events, the script file should be in folder like `/usr/local/bin`, so you can use it like a shell command (e.g. `calendar-ack`)
 11. To start the app for the first time, run the shell command created on the previous step (`$ calendar-ack`)
-12. (Optional) Go to the Calendar Settings of each gmail and grant access to the email of the service account to improve the notifications (you can find the service account email in Google Cloud Console)
+12. Go to the Calendar Settings of each gmail in the list and grant access to the email of the service account (you can find the service account email in Google Cloud Console. This step is not necessary for public calendars)
