@@ -6,10 +6,10 @@ Ubuntu insistent desktop notifications for Google Calendar events.
 
 1. Create a project and a service account in Google Cloud Console
 2. Save the JSON credentials file of the service account somewhere in your computer
-3. If compatible, download the [latest release binary](/matheuscscp/ubuntu-calendar-notifications/releases/latest) and skip to step 7
+3. If compatible, download the [latest release](https://github.com/matheuscscp/ubuntu-calendar-notifications/releases/latest) binary and skip to step 7
 4. Install go 1.16
-5. Clone this repo or download the [latest release source code](/matheuscscp/ubuntu-calendar-notifications/releases/latest)
-6. Run `go build` in the root to generate the `ubuntu-calendar-notifications` binary
+5. Clone this repo or download the [latest release](https://github.com/matheuscscp/ubuntu-calendar-notifications/releases/latest) source code
+6. Run `go build` in the root folder to generate the `ubuntu-calendar-notifications` binary
 7. Create the following script replacing the placeholders:
 
 ```bash
