@@ -10,7 +10,7 @@ Ubuntu insistent desktop notifications for Google Calendar events.
 4. Install go 1.16.
 5. Clone this repo or download the [latest release](https://github.com/matheuscscp/ubuntu-calendar-notifications/releases/latest) source code.
 6. Run `go build` in the root folder to generate the `ubuntu-calendar-notifications` binary.
-7. Create the following script somewhere in your computer (replace the placeholders!):
+7. Create the following script somewhere in your computer (replacing the placeholders!):
 
 ```bash
 #!/bin/bash
