@@ -73,10 +73,11 @@ func notify(events []*calendar.Event) error {
 			if e.Summary != "" {
 				name = e.Summary
 			}
-			notification := fmt.Sprintf("%s (%s - %s)",
-				name,
+			notification := fmt.Sprintf(
+				"%s - %s: %s",
 				beg.Format(time.Kitchen),
 				end.Format(time.Kitchen),
+				name,
 			)
 			if err := exec.Command("notify-send", notification).Run(); err != nil {
 				logger.
