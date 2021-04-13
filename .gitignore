@@ -15,3 +15,5 @@
 # vendor/
 
 run
+*.json
+logs.txt
