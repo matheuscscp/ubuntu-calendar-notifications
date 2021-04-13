@@ -22,4 +22,4 @@ CREDENTIALS_FILE=$CREDENTIALS_FILE GMAILS=$GMAILS <path to ubuntu-calendar-notif
 ```
 7. Add a program to Ubuntu's Startup Applications Preferences that runs the above script
 8. (Optional) Go to the Calendar Settings of each gmail and grant access to the service account gmail to improve the notifications
-9. (Optional) Create an easy shell command to run the above script to stop the notifications for the current event
+9. (Optional) Create an easy shell command, like `calendar-ack`, that runs the above script to restart the process and therefore stop the notifications for on-going events
