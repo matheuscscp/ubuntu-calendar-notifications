@@ -41,21 +41,25 @@ func (c *client) getTodayForGmail(ctx context.Context, gmail string) ([]*calenda
 		Context(ctx).
 		Do()
 	if err != nil {
-		return nil, fmt.Errorf(`error listing "%s" events: %w`, gmail, err)
+		return nil, err
 	}
 	return events.Items, nil
 }
 
-func (c *client) getTodayForGmails(ctx context.Context, gmails []string) ([]*calendar.Event, error) {
+func (c *client) getTodayForGmails(ctx context.Context, gmails []string) []*calendar.Event {
 	var events []*calendar.Event
 	for _, gmail := range gmails {
 		e, err := c.getTodayForGmail(ctx, gmail)
 		if err != nil {
-			return nil, err
+			logger.
+				WithError(err).
+				WithField("calendar-id", gmail).
+				Error("error listing events for calendar")
+		} else {
+			events = append(events, e...)
 		}
-		events = append(events, e...)
 	}
-	return events, nil
+	return events
 }
 
 func mustParseTime(s string) time.Time {
@@ -143,16 +147,12 @@ func main() {
 	if err != nil {
 		logger.WithError(err).Fatal("error creating calendar client")
 	}
+	client := &client{Service: svc}
 
 	// close api call over configs
-	client := &client{Service: svc}
 	gmails := strings.Split(os.Getenv("GMAILS"), ",")
-	list := func(ctx context.Context) ([]*calendar.Event, error) {
-		events, err := client.getTodayForGmails(ctx, gmails)
-		if err != nil {
-			return nil, fmt.Errorf("error listing today events: %w", err)
-		}
-		return events, nil
+	list := func(ctx context.Context) []*calendar.Event {
+		return client.getTodayForGmails(ctx, gmails)
 	}
 
 	// poll loop
@@ -160,21 +160,17 @@ func main() {
 	defer timer.Stop()
 	for {
 		var events []*calendar.Event
-		sig, err := runWithCancelOnSignal(sigch, func(ctx context.Context) error {
-			var err error
-			events, err = list(ctx)
-			return err
+		sig, _ := runWithCancelOnSignal(sigch, func(ctx context.Context) error {
+			events = list(ctx)
+			return nil
 		})
 		if sig != nil {
 			logTerminate(sig, "poll")
 			return
 		}
-		if err != nil {
-			logger.WithError(err).Error("error listing events")
-		} else {
-			notify(events)
-		}
+		notify(events)
 
+		// sleep
 		timer.Reset(time.Minute)
 		select {
 		case <-timer.C:
