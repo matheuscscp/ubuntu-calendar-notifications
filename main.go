@@ -97,8 +97,7 @@ func runWithCancelOnSignal(sigch <-chan os.Signal, cb func(context.Context) erro
 	go func() {
 		select {
 		case <-ctx.Done():
-		case s := <-sigch:
-			sig = s
+		case sig = <-sigch:
 		}
 		cancel()
 	}()
