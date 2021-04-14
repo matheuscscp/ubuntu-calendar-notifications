@@ -73,21 +73,22 @@ func notify(events []*calendar.Event) error {
 		beg := mustParseTime(e.Start.DateTime)
 		end := mustParseTime(e.End.DateTime)
 		if startTime.Before(beg) && beg.Before(now) && now.Before(end) {
-			name := e.Id
-			if e.Summary != "" {
-				name = e.Summary
+			summary := fmt.Sprintf("%s - %s", beg.Format(time.Kitchen), end.Format(time.Kitchen))
+			body := e.Summary
+			if body == "" {
+				body = fmt.Sprintf("Event ID: %s", e.Id)
 			}
-			notification := fmt.Sprintf(
-				"%s - %s: %s",
-				beg.Format(time.Kitchen),
-				end.Format(time.Kitchen),
-				name,
-			)
-			if err := exec.Command("notify-send", notification).Run(); err != nil {
+			if err := exec.Command(
+				"notify-send",
+				"--urgency=critical",
+				summary,
+				body,
+			).Run(); err != nil {
 				logger.
 					WithError(err).
-					WithField("notification", notification).
-					Error("error sending notification")
+					WithField("summary", summary).
+					WithField("body", body).
+					Error("error sending ubuntu notification")
 			}
 		}
 	}
