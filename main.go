@@ -76,6 +76,7 @@ func notify(events []*calendar.Event) error {
 		}
 		if e.Start == nil || e.End == nil {
 			logger.WithField("event", e).Warn("event with nil start or end")
+			continue
 		}
 		beg := mustParseTime(e.Start.DateTime)
 		end := mustParseTime(e.End.DateTime)
