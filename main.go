@@ -70,6 +70,9 @@ func mustParseTime(s string) time.Time {
 func notify(events []*calendar.Event) error {
 	now := time.Now()
 	for _, e := range events {
+		if e == nil || e.Start == nil || e.End == nil {
+			continue
+		}
 		beg := mustParseTime(e.Start.DateTime)
 		end := mustParseTime(e.End.DateTime)
 		if startTime.Before(beg) && beg.Before(now) && now.Before(end) {
