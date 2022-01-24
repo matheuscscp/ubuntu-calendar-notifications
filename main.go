@@ -70,8 +70,12 @@ func mustParseTime(s string) time.Time {
 func notify(events []*calendar.Event) error {
 	now := time.Now()
 	for _, e := range events {
-		if e == nil || e.Start == nil || e.End == nil {
+		if e == nil {
+			logger.Warn("nil event")
 			continue
+		}
+		if e.Start == nil || e.End == nil {
+			logger.WithField("event", e).Warn("event with nil start or end")
 		}
 		beg := mustParseTime(e.Start.DateTime)
 		end := mustParseTime(e.End.DateTime)
