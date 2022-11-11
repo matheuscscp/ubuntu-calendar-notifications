@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# idempotent script to restart the agent
+
+# kill old instance
+kill -15 $(ps aux | grep ubuntu-calendar-notifications | awk '{print $2}') 2> /dev/null
+
+# start new instance
+PROJECT_DIR=$HOME/Documents/personal/ubuntu-calendar-notifications
+export CREDENTIALS_FILE=$PROJECT_DIR/ubuntu-calendar-notifications-b76390aea04a.json
+export GMAILS=pimenta@arista.com,matheuscscp@gmail.com
+$PROJECT_DIR/ubuntu-calendar-notifications >> $PROJECT_DIR/logs.txt 2>&1 &
